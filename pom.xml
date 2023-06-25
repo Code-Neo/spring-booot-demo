@@ -12,6 +12,8 @@
         <module>springboot-aop-log</module>
         <module>springboot-aop-log-annotation</module>
         <module>springboot-message-pull</module>
+        <module>springboot-message-push</module>
+        <module>springboot-email</module>
     </modules>
 
     <properties>

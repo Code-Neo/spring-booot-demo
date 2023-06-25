@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>exchange</title>
+</head>
+<style>
+  body {
+    cursor: default;
+  }
+
+  .exchangeCode {
+    color: #a14c44;
+  }
+</style>
+<body>
+<div>
+  <label th:text="${subject}"></label>
+  <div class="exchangeCode" th:text="${code}"></div>
+</div>
+</body>
+</html>

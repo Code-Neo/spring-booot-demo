@@ -1,0 +1,15 @@
+spring:
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 321590776@qq.com
+    password: bhcxzgubmdfgbifb
+    protocol: smtp
+    test-connection: true
+    default-encoding: utf-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.ssl.enable: true
+      mail.display.sendmail: neo
