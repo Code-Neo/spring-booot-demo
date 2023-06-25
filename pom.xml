@@ -10,7 +10,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>springboot-aop-log</module>
-        <module>springoot-aop-log-annotation</module>
+        <module>springboot-aop-log-annotation</module>
+        <module>springboot-message-pull</module>
     </modules>
 
     <properties>
