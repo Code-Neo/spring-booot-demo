@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>聊天室</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+    <style>
+        .text {
+            font-size: 14px;
+        }
+
+        .item {
+            padding: 18px 0;
+        }
+
+        .box-card {
+            width: 480px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header>
+            <el-input style="width:300px" v-model="username" placeholder="请输入连接用的用户名"
+                      :disabled="isConnected"></el-input>
+            <el-button @click="initWebsocket" type="primary" :disabled="isConnected">手动连接</el-button>
+            <el-button @click="destroyWebsocket" type="danger" :disabled="!isConnected">断开连接</el-button>
+        </el-header>
+
+        <el-header>
+            <el-input style="width:300px" v-model="targetUsername" placeholder="请输入发送的目标用户"></el-input>
+            <el-input style="width:300px" v-model="sendMessage" placeholder="请输入发送的的消息"></el-input>
+            <el-button @click="handleSendButton" type="primary">发送</el-button>
+            <el-button @click="sendMessage = ''" type="danger">清空</el-button>
+        </el-header>
+
+
+        <el-header >
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>在线人员：</span>
+                </div>
+                <div v-for="o in onlineUser" :key="o" class="text item">
+                    <div style="font-weight: bold; color: #999">用户名：{{o}}</div>
+                </div>
+            </el-card>
+
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>消息框：</span>
+                </div>
+                <div v-for="o in messageList" :key="o" class="text item">
+                    <div style="font-weight: bold; color: #999">用户名：{{o.targetUsername}}</div>
+                    <div style="font-size: large; color: #999">{{o.message}}</div>
+                </div>
+            </el-card>
+        </el-header>
+
+
+
+    </el-container>
+</div>
+</body>
+<script src="js/sockjs.min.js"></script>
+<script src="js/stomp.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.4.11/index.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"></script>
+<script>
+    // 服务端的websocket地址（端口后一般接serverEndpoint的地址）
+    const wsHost = "ws://localhost:8080/chat/wb/";
+
+    const app = new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                // 当前的websocket对象
+                webSocketObject: null,
+                // 当前连接的用户名
+                username: '',
+                // 是否连接的标识符
+                isConnected: false,
+                // 消息列表
+                messageList: [],
+                // 当前发送的消息
+                sendMessage: "",
+                // 接收方的用户名
+                targetUsername: "",
+                // 在线人员
+                onlineUser:[]
+            }
+        },
+        methods: {
+            // 初始化websocket
+            initWebsocket() {
+                if (this.username == undefined || this.username == "") {
+                    this.$message({
+                        type: "warning",
+                        message: "请输入用户名"
+                    })
+                    return;
+                }
+                const webSocketUrl = wsHost + this.username
+                this.webSocketObject = new WebSocket(webSocketUrl);
+                this.webSocketObject.onopen = this.webSocketOnOpen
+                this.webSocketObject.onmessage = this.webSocketOnMessage
+                this.webSocketObject.onerror = this.webSocketOnError
+                this.webSocketObject.onclose = this.webSocketOnClose
+                this.isConnected = true
+            },
+            // 连接关闭时的回调
+            destroyWebsocket() {
+                if (this.webSocketObject != null) {
+                    this.username = undefined
+                    this.isConnected = false
+                    this.webSocketObject.close();
+                }
+                console.log('websocket断开成功！');
+                this.$message.error('websocket断开成功！');
+            },
+            // 连接建立成功时回调
+            webSocketOnOpen(e) {
+                console.log('与服务端连接打开->', e)
+            },
+            // 接收服务端发送的消息
+            webSocketOnMessage(e) {
+                console.log('来自服务端的消息->', e)
+                const receiveMessage = JSON.parse(e.data);
+                console.log(receiveMessage)
+                if (receiveMessage.sys!==undefined && receiveMessage.sys === true){
+                    this.onlineUser = receiveMessage.onlineUsername
+                    return;
+                }
+                this.messageList.push(receiveMessage)
+            },
+            // 连接发生异常时的回调
+            webSocketOnError(e) {
+                console.log('与服务端连接异常->', e)
+            },
+            // 连接关闭时的操作
+            webSocketOnClose(e) {
+                console.log('与服务端连接关闭->', e)
+            },
+            // 发送消息
+            handleSendButton() {
+                const targetUsername = this.targetUsername
+                const message = this.sendMessage
+                // 向服务端websocket发送数据
+                this.webSocketObject.send(JSON.stringify({
+                    message,
+                    targetUsername,
+                }))
+                this.sendMessage = ''
+            },
+        },
+        beforeDestroy() {
+            this.destroyWebsocket();
+        }
+
+    })
+</script>
+</html>

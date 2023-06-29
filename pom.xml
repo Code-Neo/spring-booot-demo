@@ -17,6 +17,8 @@
         <module>springboot-task</module>
         <module>springboot-task-quartz</module>
         <module>springboot-task-xxl-job</module>
+        <module>springboot-websocket-jvm-monitor</module>
+        <module>springboot-websocket-chat</module>
     </modules>
 
     <properties>
