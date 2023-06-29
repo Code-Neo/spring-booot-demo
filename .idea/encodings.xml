@@ -11,8 +11,16 @@
     <file url="file://$PROJECT_DIR$/springboot-message-pull/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springboot-message-push/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springboot-message-push/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-task-quartz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-task-quartz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-task-xxl-job/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-task-xxl-job/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-task/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-task/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xxl-job-admin/src/main/resources" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
