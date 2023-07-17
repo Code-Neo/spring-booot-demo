@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/neo_seckill?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    # druid 数据源专有配置
+    # 不是druid-spring-boot-starter依赖，SpringBoot默认是不注入druid数据源专有属性值的，需要自己绑定
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计。stat:监控统计 log4:日志记录 wall:防御sql注入
+    # 如果运行时报错：ClassNotFoundException:orgapache.log4j.Priority，则导入log4j依赖即可
+    filters: stat,wall,log4j
+
+mybatis-plus:
+  # 指定实例类的包名，此后这个包中的类在xml文件中引用类就不需要填写全限类名，直接使用类名即可
+  type-aliases-package: com.neo.springboot.seckill.bean
+  # MyBatis Mapper 所对应的 XML 文件位置，
+  # 如果您在 Mapper 中有自定义方法(XML 中有自定义实现)，需要进行该配置，告诉 Mapper 所对应的 XML 文件位置
+  # 注意：Maven 多模块项目的扫描路径需以 classpath*: 开头 （即加载多个 jar 包下的 XML 文件）
+  mapper-locations: classpath*:com/neo/springboot/seckill/mapper/**/*.xml
+
+
+  configuration:
+    # 是否开启自动驼峰命名规则（camel case）映射，
+    # 即从经典数据库列名 A_COLUMN（下划线命名） 到经典 Java 属性名 aColumn（驼峰命名） 的类似映射。
+    # 在 MyBatis-Plus 中，此属性也将用于生成最终的 SQL 的 select body
+    # 如果您的数据库命名符合规则无需使用 @TableField 注解指定数据库字段名
+    # 默认值为 false
+    map-underscore-to-camel-case: true

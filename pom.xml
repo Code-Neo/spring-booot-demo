@@ -19,6 +19,7 @@
         <module>springboot-task-xxl-job</module>
         <module>springboot-websocket-jvm-monitor</module>
         <module>springboot-websocket-chat</module>
+        <module>springboot-demo-seckill</module>
     </modules>
 
     <properties>
